@@ -1,0 +1,14 @@
+[package]
+name = "server-sdk-core"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+
+[dependencies]
+anyhow = "1.0.93"
+chrono = "0.4.38"
+ed25519-compact = "2.1.1"
+hex = "0.4.3"
+jwt-compact = { version = "0.8.0", features = ["ed25519-compact"] }
+serde = { version = "1.0.214", features = ["derive"] }

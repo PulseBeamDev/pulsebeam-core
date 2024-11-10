@@ -1,0 +1,15 @@
+[package]
+name = "server-sdk-node"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+server-sdk-core = { version = "0.1.0", path = "../server-sdk-core" }
+napi = "3.0.0-alpha.20"
+napi-derive = "3.0.0-alpha.9"
+
+[build-dependencies]
+napi-build = "2.1.3"
