@@ -1,0 +1,15 @@
+{
+  "name": "server-sdk-node-darwin-universal",
+  "version": "0.0.0",
+  "os": [
+    "darwin"
+  ],
+  "main": "server-sdk-node.darwin-universal.node",
+  "files": [
+    "server-sdk-node.darwin-universal.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}
