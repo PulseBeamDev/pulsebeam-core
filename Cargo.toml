@@ -1,5 +1,5 @@
 [workspace]
-members = ["server-sdk-core", "server-sdk-node", "server-sdk-js"]
+members = ["server-sdk-core", "server-sdk-js"]
 resolver = "2"
 
 [profile.release]
