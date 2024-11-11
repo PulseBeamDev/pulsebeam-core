@@ -1,6 +1,6 @@
 {
   "name": "@signalerdev/server-sdk-js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "exports": {
     "./deno": "./pkg-deno/server_sdk_js.js",
     "./node": "./pkg-node/server_sdk_js.js"
@@ -20,5 +20,8 @@
       "!pkg-node/",
       "!pkg-deno/"
     ]
+  },
+  "imports": {
+    "wasm-pack": "npm:wasm-pack@^0.13.1"
   }
 }
