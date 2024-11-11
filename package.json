@@ -1,6 +1,6 @@
 {
-  "name": "server-sdk-node",
-  "version": "0.0.0",
+  "name": "@signalerdev/server-sdk-node",
+  "version": "0.0.1",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
@@ -26,8 +26,8 @@
   },
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
+    "build": "napi build --cargo-name server_sdk_node --platform --release",
+    "build:debug": "napi build --cargo-name server_sdk_node --platform",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "ava",
     "universal": "napi universal",
