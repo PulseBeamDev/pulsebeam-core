@@ -1,6 +1,9 @@
 {
   "name": "@signalerdev/server-sdk-js",
   "version": "0.0.4",
+  "imports": {
+    "wasm-pack": "npm:wasm-pack@^0.13.1"
+  },
   "exports": {
     "./deno": "./pkg-deno/server_sdk_core.js",
     "./node": "./pkg-node/server_sdk_core.js"
@@ -9,7 +12,8 @@
     "build:node": "wasm-pack build --target nodejs --out-dir pkg-node",
     "build:deno": "wasm-pack build --target deno --out-dir pkg-deno",
     "build": "deno run build:node && deno run build:deno",
-    "publish": "deno run build && deno publish --allow-slow-types"
+    "publish": "deno run build && deno publish --allow-slow-types",
+    "test": "deno test --allow-read"
   },
   "exclude": [
     "src",
@@ -20,8 +24,5 @@
       "!pkg-node/",
       "!pkg-deno/"
     ]
-  },
-  "imports": {
-    "wasm-pack": "npm:wasm-pack@^0.13.1"
   }
 }

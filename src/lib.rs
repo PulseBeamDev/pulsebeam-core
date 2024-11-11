@@ -4,6 +4,7 @@ use alloc::string::{String, ToString};
 
 use anyhow::{self, Context};
 use chrono::{Duration, Utc};
+use core::default::Default;
 use ed25519_dalek::{SigningKey, SECRET_KEY_LENGTH};
 use jwt_compact::{alg::Ed25519, prelude::*};
 use serde::{Deserialize, Serialize};
@@ -46,9 +47,28 @@ struct PeerClaims {
 }
 
 #[wasm_bindgen]
+#[derive(Default)]
 pub struct TokenOpts {
     subject: String,
     group_id: String,
+}
+
+#[wasm_bindgen]
+impl TokenOpts {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    #[wasm_bindgen(setter = subject)]
+    pub fn set_subject(&mut self, subject: String) {
+        self.subject = subject;
+    }
+
+    #[wasm_bindgen(setter = groupId)]
+    pub fn set_group_id(&mut self, group_id: String) {
+        self.group_id = group_id;
+    }
 }
 
 // public fields will treated as copyable by wasm_bindgen:
@@ -66,6 +86,7 @@ impl App {
         Self { id, secret }
     }
 
+    #[wasm_bindgen(js_name=createToken)]
     pub fn create_token(&self, opts: TokenOpts) -> Result<String, AppError> {
         let signing_key_raw =
             hex::decode(&self.secret).with_context(|| "invalid secret format, expecting hex")?;
