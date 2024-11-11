@@ -1,0 +1,16 @@
+{
+  "name": "@signalerdev/server-sdk-js",
+  "version": "0.0.1",
+  "exports": {
+    "./core": "./pkg/server_sdk_js.js"
+  },
+  "exclude": [
+    "src",
+    "tests"
+  ],
+  "publish": {
+    "exclude": [
+      "!pkg/"
+    ]
+  }
+}
