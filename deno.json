@@ -1,6 +1,6 @@
 {
   "name": "@signalerdev/server-sdk-js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "exports": {
     "./deno": "./pkg-deno/server_sdk_js.js",
     "./node": "./pkg-node/server_sdk_js.js"
