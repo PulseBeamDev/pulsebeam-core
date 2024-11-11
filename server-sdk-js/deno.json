@@ -1,8 +1,15 @@
 {
   "name": "@signalerdev/server-sdk-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "exports": {
-    "./core": "./pkg/server_sdk_js.js"
+    "./deno": "./pkg-deno/server_sdk_js.js",
+    "./node": "./pkg-node/server_sdk_js.js"
+  },
+  "tasks": {
+    "build:node": "wasm-pack build --target nodejs --out-dir pkg-node",
+    "build:deno": "wasm-pack build --target deno --out-dir pkg-deno",
+    "build": "deno run build:node && deno run build:deno",
+    "publish": "deno run build && deno publish --allow-slow-types"
   },
   "exclude": [
     "src",
@@ -10,7 +17,8 @@
   ],
   "publish": {
     "exclude": [
-      "!pkg/"
+      "!pkg-node/",
+      "!pkg-deno/"
     ]
   }
 }
