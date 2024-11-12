@@ -27,6 +27,7 @@ Deno.test({
     incoming.setGroupId("*");
     incoming.setPeerId("*");
     claims.setAllowIncoming(0, incoming);
+    claims.setAllowOutgoing(0, incoming);
 
     const token = app.createToken(claims, 3600);
     console.log(token);
