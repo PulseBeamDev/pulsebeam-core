@@ -1,19 +1,34 @@
-import { App, TokenOpts } from "./pkg-deno/server_sdk_core.js";
+import {
+  App,
+  AppOpts,
+  FirewallClaims,
+  PeerClaims,
+} from "./pkg-deno/server_sdk_core.js";
 import { assertEquals } from "jsr:@std/assert";
 
 Deno.test({
   name: "create token",
   fn: () => {
-    const app = new App(
-      "347da29c4d3b4d2398237ed99dcd7eb8",
-      "61eb06aa1a3a4ef80dd2a77503e226cc9afb667bed2dde38b31852ac781ea68a",
+    const appOpts = new AppOpts();
+    appOpts.setProjectId("p_CjZbgQHDvWiujEj7fii7N");
+    appOpts.setAppId("app_Ycl5ClRWJWNw8bqB25DMH");
+    appOpts.setAppSecret(
+      "sk_e63bd11ff7491adc5f7cca5a4566b94d75ea6a9bafcd68252540eaa493a42109",
     );
+    appOpts.validate();
 
-    const opts = new TokenOpts();
-    opts.subject = "alice";
-    opts.groupId = "0";
+    const app = new App(appOpts);
 
-    const token = app.createToken(opts);
+    const claims = new PeerClaims();
+    claims.setPeerId("alice");
+    claims.setGroupId("0");
+
+    const incoming = new FirewallClaims();
+    incoming.setGroupId("*");
+    incoming.setPeerId("*");
+    claims.setAllowIncoming(0, incoming);
+
+    const token = app.createToken(claims, 3600);
     console.log(token);
 
     const parts = token.split(".");
