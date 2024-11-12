@@ -9,8 +9,8 @@
     "./node": "./pkg-node/server_sdk_core.js"
   },
   "tasks": {
-    "build:node": "wasm-pack build --target nodejs --out-dir pkg-node",
-    "build:deno": "wasm-pack build --target deno --out-dir pkg-deno",
+    "build:node": "wasm-pack build --target nodejs --out-dir pkg-node --release",
+    "build:deno": "wasm-pack build --target deno --out-dir pkg-deno --release",
     "build": "deno run build:node && deno run build:deno",
     "publish": "deno run build && deno publish --allow-slow-types",
     "test": "deno test --allow-read"
