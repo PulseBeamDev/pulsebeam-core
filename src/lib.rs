@@ -9,7 +9,7 @@ use anyhow::{self, Context};
 use chrono::Duration;
 use core::default::Default;
 use ed25519_dalek::{SigningKey, SECRET_KEY_LENGTH};
-use jwt_compact::{alg::Ed25519, prelude::*};
+use jwt_compact::{alg::Ed25519, prelude::*, AlgorithmExt};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use wasm_bindgen::prelude::*;
@@ -216,7 +216,7 @@ impl App {
             .set_duration(&time_options, Duration::seconds(duration_secs as i64));
 
         let token_string = Ed25519
-            .token(&header, &claims, &signing_key)
+            .compact_token(&header, &claims, &signing_key)
             .with_context(|| "failed to sign token")?;
         Ok(token_string)
     }
