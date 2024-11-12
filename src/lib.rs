@@ -75,6 +75,7 @@ pub struct FirewallClaims {
 
 #[wasm_bindgen]
 impl FirewallClaims {
+    #[wasm_bindgen(constructor)]
     pub fn new() -> Self {
         Self::default()
     }
