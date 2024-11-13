@@ -14,8 +14,6 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use wasm_bindgen::prelude::*;
 
-pub const MAX_FIREWALL_CLAIMS: usize = 3;
-
 #[derive(Error, Debug)]
 pub struct AppError {
     reason: String,
@@ -52,25 +50,39 @@ impl From<anyhow::Error> for AppError {
     }
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(getter_with_clone)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct PeerClaims {
     #[serde(rename = "iss")]
-    issuer: String,
+    pub issuer: String,
     #[serde(rename = "sub")]
-    subject: String, // human-friendly name
-    group_id: String,
-    peer_id: String,
+    pub subject: String, // human-friendly name
 
-    allow_incoming: [Option<FirewallClaims>; MAX_FIREWALL_CLAIMS],
-    allow_outgoing: [Option<FirewallClaims>; MAX_FIREWALL_CLAIMS],
+    #[wasm_bindgen(js_name = groupId)]
+    pub group_id: String,
+    #[wasm_bindgen(js_name = peerId)]
+    pub peer_id: String,
+
+    #[wasm_bindgen(js_name = allowIncoming0)]
+    pub allow_incoming_0: Option<FirewallClaims>,
+    #[wasm_bindgen(js_name = allowIncoming1)]
+    pub allow_incoming_1: Option<FirewallClaims>,
+
+    #[wasm_bindgen(js_name = allowOutgoing0)]
+    pub allow_outgoing_0: Option<FirewallClaims>,
+    #[wasm_bindgen(js_name = allowOutgoing1)]
+    pub allow_outgoing_1: Option<FirewallClaims>,
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(getter_with_clone)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct FirewallClaims {
-    group_id: String,
-    peer_id: String,
+    #[wasm_bindgen(js_name = groupId)]
+    pub group_id: String,
+    #[wasm_bindgen(js_name = peerId)]
+    pub peer_id: String,
 }
 
 #[wasm_bindgen]
@@ -79,16 +91,6 @@ impl FirewallClaims {
     pub fn new() -> Self {
         Self::default()
     }
-
-    #[wasm_bindgen(js_name = setGroupId)]
-    pub fn set_group_id(&mut self, group_id: &str) {
-        self.group_id = group_id.to_owned();
-    }
-
-    #[wasm_bindgen(js_name = setPeerId)]
-    pub fn set_peer_id(&mut self, peer_id: &str) {
-        self.peer_id = peer_id.to_owned();
-    }
 }
 
 #[wasm_bindgen]
@@ -96,39 +98,6 @@ impl PeerClaims {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Self {
         Self::default()
-    }
-
-    #[wasm_bindgen(js_name = setSubject)]
-    pub fn set_subject(&mut self, subject: &str) {
-        self.subject = subject.to_owned();
-    }
-
-    #[wasm_bindgen(js_name = setGroupId)]
-    pub fn set_group_id(&mut self, group_id: &str) {
-        self.group_id = group_id.to_owned();
-    }
-
-    #[wasm_bindgen(js_name = setPeerId)]
-    pub fn set_peer_id(&mut self, peer_id: &str) {
-        self.peer_id = peer_id.to_owned();
-    }
-
-    /// # Panics
-    ///
-    /// Panics if `idx` is greater than or equal to `MAX_FIREWALL_CLAIMS`
-    /// (`idx` >= `MAX_FIREWALL_CLAIMS`)
-    #[wasm_bindgen(js_name = setAllowIncoming)]
-    pub fn set_allow_incoming(&mut self, idx: usize, rule: &FirewallClaims) {
-        self.allow_incoming[idx] = Some(rule.clone());
-    }
-
-    /// # Panics
-    ///
-    /// Panics if `idx` is greater than or equal to `MAX_FIREWALL_CLAIMS`
-    /// (`idx` >= `MAX_FIREWALL_CLAIMS`)
-    #[wasm_bindgen(js_name = setAllowOutgoing)]
-    pub fn set_allow_outgoing(&mut self, idx: usize, rule: &FirewallClaims) {
-        self.allow_outgoing[idx] = Some(rule.clone());
     }
 
     #[wasm_bindgen]
@@ -140,12 +109,15 @@ impl PeerClaims {
     }
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(getter_with_clone)]
 #[derive(Debug, Default, Clone)]
 pub struct AppOpts {
-    project_id: String,
-    app_id: String,
-    app_secret: String,
+    #[wasm_bindgen(js_name = projectId)]
+    pub project_id: String,
+    #[wasm_bindgen(js_name = appId)]
+    pub app_id: String,
+    #[wasm_bindgen(js_name = appSecret)]
+    pub app_secret: String,
 }
 
 #[wasm_bindgen]
@@ -153,21 +125,6 @@ impl AppOpts {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Self {
         Self::default()
-    }
-
-    #[wasm_bindgen(js_name = setProjectId)]
-    pub fn set_project_id(&mut self, project_id: &str) {
-        self.project_id = project_id.to_owned();
-    }
-
-    #[wasm_bindgen(js_name = setAppId)]
-    pub fn set_app_id(&mut self, app_id: &str) {
-        self.app_id = app_id.to_owned();
-    }
-
-    #[wasm_bindgen(js_name = setAppSecret)]
-    pub fn set_app_secret(&mut self, app_secret: &str) {
-        self.app_secret = app_secret.to_owned();
     }
 
     pub fn validate(&self) -> Result<(), AppError> {
@@ -236,16 +193,16 @@ mod tests {
     #[test]
     fn test_create_token() -> anyhow::Result<()> {
         let mut app_opts = AppOpts::new();
-        app_opts.set_project_id("p_CjZbgQHDvWiujEj7fii7N");
-        app_opts.set_app_id("app_Ycl5ClRWJWNw8bqB25DMH");
-        app_opts
-            .set_app_secret("sk_e63bd11ff7491adc5f7cca5a4566b94d75ea6a9bafcd68252540eaa493a42109");
+        app_opts.project_id = "p_CjZbgQHDvWiujEj7fii7N".to_owned();
+        app_opts.app_id = "app_Ycl5ClRWJWNw8bqB25DMH".to_owned();
+        app_opts.app_secret =
+            "sk_e63bd11ff7491adc5f7cca5a4566b94d75ea6a9bafcd68252540eaa493a42109".to_owned();
 
         let app = App::new(&app_opts);
 
         let mut claims = PeerClaims::new();
-        claims.set_subject("alice L");
-        claims.set_peer_id("alice");
+        claims.subject = "alice L".to_owned();
+        claims.peer_id = "alice".to_owned();
         app.create_token(&claims, 3600)?;
         Ok(())
     }
