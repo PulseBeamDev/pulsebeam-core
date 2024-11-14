@@ -112,8 +112,6 @@ impl PeerClaims {
 #[wasm_bindgen(getter_with_clone)]
 #[derive(Debug, Default, Clone)]
 pub struct AppOpts {
-    #[wasm_bindgen(js_name = projectId)]
-    pub project_id: String,
     #[wasm_bindgen(js_name = appId)]
     pub app_id: String,
     #[wasm_bindgen(js_name = appSecret)]
@@ -193,7 +191,6 @@ mod tests {
     #[test]
     fn test_create_token() -> anyhow::Result<()> {
         let mut app_opts = AppOpts::new();
-        app_opts.project_id = "p_CjZbgQHDvWiujEj7fii7N".to_owned();
         app_opts.app_id = "app_Ycl5ClRWJWNw8bqB25DMH".to_owned();
         app_opts.app_secret =
             "sk_e63bd11ff7491adc5f7cca5a4566b94d75ea6a9bafcd68252540eaa493a42109".to_owned();

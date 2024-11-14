@@ -10,7 +10,6 @@ Deno.test({
   name: "create token",
   fn: () => {
     const appOpts = new AppOpts();
-    appOpts.projectId = "p_CjZbgQHDvWiujEj7fii7N";
     appOpts.appId = "app_Ycl5ClRWJWNw8bqB25DMH";
     appOpts.appSecret =
       "sk_e63bd11ff7491adc5f7cca5a4566b94d75ea6a9bafcd68252540eaa493a42109";

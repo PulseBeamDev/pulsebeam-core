@@ -1,6 +1,6 @@
 {
   "name": "@signalerdev/server-sdk-js",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "imports": {
     "wasm-pack": "npm:wasm-pack@^0.13.1"
   },
