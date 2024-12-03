@@ -1,12 +1,13 @@
 {
-  "name": "@signalerdev/server-sdk-js",
-  "version": "0.0.10",
+  "name": "@pulsebeam/server",
+  "version": "0.0.1",
+  "nodeModulesDir": "auto",
   "imports": {
     "wasm-pack": "npm:wasm-pack@^0.13.1"
   },
   "exports": {
-    "./deno": "./pkg-deno/server_sdk_core.js",
-    "./node": "./pkg-node/server_sdk_core.js"
+    "./deno": "./pkg-deno/pulsebeam_core.js",
+    "./node": "./pkg-node/pulsebeam_core.js"
   },
   "tasks": {
     "build:node": "wasm-pack build --target nodejs --out-dir pkg-node --release",

@@ -379,6 +379,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "pulsebeam-core"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "ed25519-dalek",
+ "hex",
+ "js-sys",
+ "jwt-compact",
+ "serde",
+ "thiserror",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -447,21 +462,6 @@ dependencies = [
  "memchr",
  "ryu",
  "serde",
-]
-
-[[package]]
-name = "server-sdk-core"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "chrono",
- "ed25519-dalek",
- "hex",
- "js-sys",
- "jwt-compact",
- "serde",
- "thiserror",
- "wasm-bindgen",
 ]
 
 [[package]]

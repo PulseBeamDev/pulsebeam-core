@@ -3,7 +3,7 @@ import {
   AppOpts,
   FirewallClaims,
   PeerClaims,
-} from "./pkg-deno/server_sdk_core.js";
+} from "./pkg-deno/pulsebeam_core.js";
 import { assertEquals } from "jsr:@std/assert";
 
 Deno.test({
