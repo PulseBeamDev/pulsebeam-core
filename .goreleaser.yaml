@@ -1,0 +1,30 @@
+version: 2
+builds:
+  # You can have multiple builds defined as a yaml list
+  - #
+    # ID of the build.
+    #
+    # Default: Project directory name.
+    id: "pulsebeam"
+
+    # Use rust.
+    builder: rust
+
+    # Binary name.
+    # Can be a path (e.g. `bin/app`) to wrap the binary in a directory.
+    #
+    # Default: Project directory name.
+    binary: examples/pulsebeam
+
+    # List of targets to be built, in Rust's format.
+    # Default: [ "x86_64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-pc-windows-gnu", "aarch64-unknown-linux-gnu", "aarch64-apple-darwin" ]
+    targets:
+      - x86_64-unknown-linux-gnu
+      - x86_64-apple-darwin
+      - x86_64-pc-windows-gnu
+      - aarch64-unknown-linux-gnu
+      - aarch64-apple-darwin
+
+    flags:
+      - --release
+      - --example pulsebeam
