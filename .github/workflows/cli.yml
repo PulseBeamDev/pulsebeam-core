@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   goreleaser:
+    if: false # wait until goreleaser 2.5 releases
     runs-on: ubuntu-latest
     steps:
       - if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
