@@ -22,3 +22,7 @@ lto = true
 codegen-units = 1
 # Tell `rustc` to optimize for small code size.
 opt-level = "s"
+
+[dev-dependencies]
+clap = { version = "4.5.22", features = ["derive"] }
+serde = { version = "1.0.214", features = ["derive"] }

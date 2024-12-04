@@ -110,7 +110,7 @@ impl PeerClaims {
 }
 
 #[wasm_bindgen(getter_with_clone)]
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct AppOpts {
     #[wasm_bindgen(js_name = appId)]
     pub app_id: String,
