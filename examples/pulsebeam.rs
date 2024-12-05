@@ -1,6 +1,6 @@
 use anyhow::Context;
 use clap::{Parser, Subcommand};
-use pulsebeam_core::{App, AppOpts, FirewallClaims, PeerClaims};
+use pulsebeam_core::{App, FirewallClaims, PeerClaims};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -70,8 +70,7 @@ fn main() -> anyhow::Result<()> {
         .or_else(|| std::env::var("PULSEBEAM_APP_SECRET").ok())
         .context("PULSEBEAM_APP_SECRET must be provided either as a CLI argument or an environment variable")?;
 
-    let app_opts = AppOpts { app_id, app_secret };
-    let app = App::new(&app_opts);
+    let app = App::new(&app_id, &app_secret);
 
     match &cli.command {
         Commands::CreateToken {
@@ -84,10 +83,8 @@ fn main() -> anyhow::Result<()> {
             allow_outgoing_0,
             allow_outgoing_1,
         } => {
-            let mut claims = PeerClaims::new();
+            let mut claims = PeerClaims::new(group_id, peer_id);
             claims.subject = subject.to_owned();
-            claims.peer_id = peer_id.to_owned();
-            claims.group_id = group_id.to_owned();
 
             // Helper function to parse "group_id:peer_id" strings
             let parse_firewall_claims = |s: &String| -> Option<FirewallClaims> {
