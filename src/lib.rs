@@ -53,11 +53,15 @@ impl From<anyhow::Error> for AppError {
 #[wasm_bindgen]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
 pub struct PeerClaims {
-    group_id: String,
-    peer_id: String,
+    #[wasm_bindgen(skip)]
+    pub group_id: String,
+    #[wasm_bindgen(skip)]
+    pub peer_id: String,
 
-    allow_incoming_0: Option<FirewallClaims>,
-    allow_outgoing_0: Option<FirewallClaims>,
+    #[wasm_bindgen(skip)]
+    pub allow_incoming_0: Option<FirewallClaims>,
+    #[wasm_bindgen(skip)]
+    pub allow_outgoing_0: Option<FirewallClaims>,
 }
 
 #[wasm_bindgen]
@@ -85,8 +89,10 @@ impl PeerClaims {
 #[wasm_bindgen]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct FirewallClaims {
-    group_id: String,
-    peer_id: String,
+    #[wasm_bindgen(skip)]
+    pub group_id: String,
+    #[wasm_bindgen(skip)]
+    pub peer_id: String,
 }
 
 #[wasm_bindgen]
@@ -104,8 +110,10 @@ impl FirewallClaims {
 // https://github.com/rustwasm/wasm-bindgen/issues/1985
 #[wasm_bindgen]
 pub struct App {
-    app_id: String,
-    app_secret: String,
+    #[wasm_bindgen(skip)]
+    pub app_id: String,
+    #[wasm_bindgen(skip)]
+    pub app_secret: String,
 }
 
 #[wasm_bindgen]
