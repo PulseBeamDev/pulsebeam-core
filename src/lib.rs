@@ -50,39 +50,43 @@ impl From<anyhow::Error> for AppError {
     }
 }
 
-#[wasm_bindgen(getter_with_clone)]
+#[wasm_bindgen]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
-#[serde(rename_all = "camelCase")]
 pub struct PeerClaims {
-    #[serde(rename = "iss")]
-    pub issuer: String,
-    #[serde(rename = "sub")]
-    pub subject: String, // human-friendly name
+    group_id: String,
+    peer_id: String,
 
-    #[wasm_bindgen(js_name = groupId)]
-    pub group_id: String,
-    #[wasm_bindgen(js_name = peerId)]
-    pub peer_id: String,
-
-    #[wasm_bindgen(js_name = allowIncoming0)]
-    pub allow_incoming_0: Option<FirewallClaims>,
-    #[wasm_bindgen(js_name = allowIncoming1)]
-    pub allow_incoming_1: Option<FirewallClaims>,
-
-    #[wasm_bindgen(js_name = allowOutgoing0)]
-    pub allow_outgoing_0: Option<FirewallClaims>,
-    #[wasm_bindgen(js_name = allowOutgoing1)]
-    pub allow_outgoing_1: Option<FirewallClaims>,
+    allow_incoming_0: Option<FirewallClaims>,
+    allow_outgoing_0: Option<FirewallClaims>,
 }
 
-#[wasm_bindgen(getter_with_clone)]
+#[wasm_bindgen]
+impl PeerClaims {
+    #[wasm_bindgen(constructor)]
+    pub fn new(group_id: &str, peer_id: &str) -> Self {
+        Self {
+            group_id: group_id.to_owned(),
+            peer_id: peer_id.to_owned(),
+            ..Self::default()
+        }
+    }
+
+    #[wasm_bindgen(js_name = "setAllowIncoming0")]
+    pub fn set_allow_incoming_0(&mut self, val: &FirewallClaims) {
+        self.allow_incoming_0 = Some(val.clone());
+    }
+
+    #[wasm_bindgen(js_name = "setAllowOutgoing0")]
+    pub fn set_allow_outgoing_0(&mut self, val: &FirewallClaims) {
+        self.allow_outgoing_0 = Some(val.clone());
+    }
+}
+
+#[wasm_bindgen]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
-#[serde(rename_all = "camelCase")]
 pub struct FirewallClaims {
-    #[wasm_bindgen(js_name = groupId)]
-    pub group_id: String,
-    #[wasm_bindgen(js_name = peerId)]
-    pub peer_id: String,
+    group_id: String,
+    peer_id: String,
 }
 
 #[wasm_bindgen]
@@ -96,26 +100,12 @@ impl FirewallClaims {
     }
 }
 
-#[wasm_bindgen]
-impl PeerClaims {
-    #[wasm_bindgen(constructor)]
-    pub fn new(group_id: &str, peer_id: &str) -> Self {
-        Self {
-            group_id: group_id.to_owned(),
-            peer_id: peer_id.to_owned(),
-            ..Self::default()
-        }
-    }
-}
-
 // public fields will treated as copyable by wasm_bindgen:
 // https://github.com/rustwasm/wasm-bindgen/issues/1985
-#[wasm_bindgen(getter_with_clone)]
+#[wasm_bindgen]
 pub struct App {
-    #[wasm_bindgen(js_name = appId)]
-    pub app_id: String,
-    #[wasm_bindgen(js_name = appSecret)]
-    pub app_secret: String,
+    app_id: String,
+    app_secret: String,
 }
 
 #[wasm_bindgen]
@@ -158,7 +148,7 @@ impl App {
             .set_duration(&time_options, Duration::seconds(duration_secs as i64));
 
         let token_string = Ed25519
-            .compact_token(&header, &claims, &signing_key)
+            .token(&header, &claims, &signing_key)
             .with_context(|| "failed to sign token")?;
         Ok(token_string)
     }
@@ -177,8 +167,7 @@ mod tests {
             "sk_e63bd11ff7491adc5f7cca5a4566b94d75ea6a9bafcd68252540eaa493a42109",
         );
 
-        let mut claims = PeerClaims::new("default", "alice");
-        claims.subject = "alice L".to_owned();
+        let claims = PeerClaims::new("default", "alice");
         app.create_token(&claims, 3600)?;
         Ok(())
     }

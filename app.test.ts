@@ -15,8 +15,8 @@ Deno.test({
 
     const claims = new PeerClaims("default", "alice");
     const incoming = new FirewallClaims("default", "*");
-    claims.allowIncoming0 = incoming;
-    claims.allowOutgoing0 = incoming;
+    claims.setAllowIncoming0(incoming);
+    claims.setAllowOutgoing0(incoming);
 
     const token = app.createToken(claims, 3600);
     console.log(token);
