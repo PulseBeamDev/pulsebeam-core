@@ -21,10 +21,6 @@ struct Cli {
 enum Commands {
     /// Create a new token
     CreateToken {
-        /// Human-readable subject for the token
-        #[arg(long)]
-        subject: String,
-
         /// Peer ID for the token
         #[arg(long)]
         peer_id: String,
@@ -41,17 +37,9 @@ enum Commands {
         #[arg(long, value_name = "GROUP_ID:PEER_ID")]
         allow_incoming_0: Option<String>,
 
-        /// Allow incoming connections from another group ID and peer ID (format: "group_id:peer_id")
-        #[arg(long, value_name = "GROUP_ID:PEER_ID")]
-        allow_incoming_1: Option<String>,
-
         /// Allow outgoing connections to group ID and peer ID (format: "group_id:peer_id")
         #[arg(long, value_name = "GROUP_ID:PEER_ID")]
         allow_outgoing_0: Option<String>,
-
-        /// Allow outgoing connections to another group ID and peer ID (format: "group_id:peer_id")
-        #[arg(long, value_name = "GROUP_ID:PEER_ID")]
-        allow_outgoing_1: Option<String>,
     },
 }
 
@@ -74,17 +62,13 @@ fn main() -> anyhow::Result<()> {
 
     match &cli.command {
         Commands::CreateToken {
-            subject,
             peer_id,
             group_id,
             duration,
             allow_incoming_0,
-            allow_incoming_1,
             allow_outgoing_0,
-            allow_outgoing_1,
         } => {
             let mut claims = PeerClaims::new(group_id, peer_id);
-            claims.subject = subject.to_owned();
 
             // Helper function to parse "group_id:peer_id" strings
             let parse_firewall_claims = |s: &String| -> Option<FirewallClaims> {
@@ -100,9 +84,7 @@ fn main() -> anyhow::Result<()> {
             };
 
             claims.allow_incoming_0 = allow_incoming_0.as_ref().and_then(parse_firewall_claims);
-            claims.allow_incoming_1 = allow_incoming_1.as_ref().and_then(parse_firewall_claims);
             claims.allow_outgoing_0 = allow_outgoing_0.as_ref().and_then(parse_firewall_claims);
-            claims.allow_outgoing_1 = allow_outgoing_1.as_ref().and_then(parse_firewall_claims);
 
             let token = app.create_token(&claims, *duration)?;
             println!("{}", token);
