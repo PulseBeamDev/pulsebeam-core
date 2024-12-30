@@ -18,10 +18,12 @@
   },
   "exclude": [
     "src",
-    "tests"
+    "tests",
+    "examples"
   ],
   "publish": {
     "exclude": [
+      "pkg-node/package.json",
       "!pkg-node/",
       "!pkg-deno/"
     ]
