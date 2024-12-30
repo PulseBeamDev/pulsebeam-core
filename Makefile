@@ -1,7 +1,7 @@
-TARGET := nodejs
+TARGET := bundler
 
 all:
-	make build TARGET=nodejs
+	make build
 	make build TARGET=deno
 
 build:
@@ -12,3 +12,7 @@ publish: all
 
 install:
 	curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+test:
+	deno test -A app.test.ts
+	node --experimental-vm-modules --experimental-wasm-modules app.test.js

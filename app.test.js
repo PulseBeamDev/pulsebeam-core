@@ -1,8 +1,8 @@
-const {
+import {
   App,
   FirewallClaims,
   PeerClaims,
-} = require("./pkg-node/pulsebeam_core.js");
+} from "./pkg-bundler/pulsebeam_core.js";
 
 const app = new App(
   "app_Ycl5ClRWJWNw8bqB25DMH",
