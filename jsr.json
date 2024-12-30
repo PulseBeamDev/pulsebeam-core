@@ -1,0 +1,21 @@
+{
+  "name": "@pulsebeam/server",
+  "version": "0.0.7",
+  "nodeModulesDir": "auto",
+  "exports": {
+    "./node": "./pkg-node/pulsebeam_core.js",
+    "./deno": "./pkg-deno/pulsebeam_core.js"
+  },
+  "exclude": [
+    "src",
+    "tests",
+    "examples"
+  ],
+  "publish": {
+    "exclude": [
+      "pkg-node/package.json",
+      "!pkg-node/",
+      "!pkg-deno/"
+    ]
+  }
+}
