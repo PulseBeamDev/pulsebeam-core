@@ -15,4 +15,5 @@ install:
 
 test:
 	deno test -A app.test.ts
+	# https://github.com/rustwasm/wasm-pack/pull/1061
 	node --experimental-vm-modules --experimental-wasm-modules app.test.js
