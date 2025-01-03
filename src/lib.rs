@@ -50,7 +50,7 @@ impl From<anyhow::Error> for AppError {
     }
 }
 
-/// Represents peer claims for controlling access.
+/// Represents peer claims for controlling access. Hello
 /// To learn about claims see JWT RFC {@link https://datatracker.ietf.org/doc/html/rfc7519}
 /// free() - internal method do not use
 #[wasm_bindgen]
@@ -82,8 +82,8 @@ impl PeerClaims {
             ..Self::default()
         }
     }
-    
-    /// Configure allowlist for incoming traffic 
+
+    /// Configure allowlist for incoming traffic
     /// @param {FirewallClaims} claims - FirewallClaims instance representing
     /// the incoming rule.
     /// @example myClaims.setAllowIncoming0(myRule);
@@ -91,8 +91,8 @@ impl PeerClaims {
     pub fn set_allow_incoming_0(&mut self, claims: &FirewallClaims) {
         self.allow_incoming_0 = Some(claims.clone());
     }
-    
-    /// Configure allowlist for outgoing traffic 
+
+    /// Configure allowlist for outgoing traffic
     /// @param {FirewallClaims} claims - FirewallClaims instance representing
     /// the outgoing rule.
     /// @example myClaims.setAllowOutgoing0(myRule);
@@ -121,9 +121,9 @@ impl FirewallClaims {
     /// - Is a valid UTF-8 string
     /// - length(string) >= 1 character
     /// - Contains no more than 1 wildcard (*)
-    /// 
+    ///
     /// Regex: /^(?:[^*]*\*[^*]*|[^*]+)$/g
-    /// 
+    ///
     /// Examples: ["*", "myGroup", "*bob", "my*"]
     ///  
     /// @param {Rule} group_id_rule - Desired rule for allowed groupIds
@@ -180,7 +180,7 @@ impl App {
             app_secret: app_secret.to_owned(),
         }
     }
-    
+
     /// Create a JWT. The JWT should be used by your client-side application.
     /// To learn about JWTs and claims see JWT RFC {@link https://datatracker.ietf.org/doc/html/rfc7519}
     /// @param {PeerClaims} claims - The peer claims to include in the token.
