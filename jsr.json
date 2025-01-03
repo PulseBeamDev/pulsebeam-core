@@ -3,14 +3,17 @@
   "version": "0.0.8",
   "nodeModulesDir": "auto",
   "exports": {
-    "./node": "./pkg-bundler/pulsebeam_core.js",
-    "./deno": "./pkg-deno/pulsebeam_core.js"
+    "./node": "./pkg-bundler/index.ts",
+    "./deno": "./pkg-deno/index.ts"
   },
-  "exclude": [
-    "!pkg-bundler/",
-    "!pkg-deno/",
-    "src",
-    "tests",
-    "examples"
-  ]
+  "publish": {
+    "exclude": [
+      "!pkg-bundler/",
+      "!pkg-deno/",
+      "src",
+      "tests",
+      "Cargo.toml",
+      "examples"
+    ]
+  }
 }

@@ -50,6 +50,9 @@ impl From<anyhow::Error> for AppError {
     }
 }
 
+/// Represents peer claims for controlling access.
+/// To learn about claims see JWT RFC {@link https://datatracker.ietf.org/doc/html/rfc7519}
+/// free() - internal method do not use
 #[wasm_bindgen]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
 pub struct PeerClaims {
@@ -66,6 +69,11 @@ pub struct PeerClaims {
 
 #[wasm_bindgen]
 impl PeerClaims {
+    /// Construct a new PeerClaims instance
+    /// Strings must be valid UTF-8 and at least 1 character
+    /// @param {string} group_id - Identifier for the group which the peer belongs to.
+    /// @param {string} peer_id - Identifier for the peer.
+    /// @example const claims = new PeerClaims("myGroup1", "myPeer1");
     #[wasm_bindgen(constructor)]
     pub fn new(group_id: &str, peer_id: &str) -> Self {
         Self {
@@ -74,18 +82,29 @@ impl PeerClaims {
             ..Self::default()
         }
     }
-
+    
+    /// Configure allowlist for incoming traffic 
+    /// @param {FirewallClaims} claims - FirewallClaims instance representing
+    /// the incoming rule.
+    /// @example myClaims.setAllowIncoming0(myRule);
     #[wasm_bindgen(js_name = "setAllowIncoming0")]
-    pub fn set_allow_incoming_0(&mut self, val: &FirewallClaims) {
-        self.allow_incoming_0 = Some(val.clone());
+    pub fn set_allow_incoming_0(&mut self, claims: &FirewallClaims) {
+        self.allow_incoming_0 = Some(claims.clone());
     }
-
+    
+    /// Configure allowlist for outgoing traffic 
+    /// @param {FirewallClaims} claims - FirewallClaims instance representing
+    /// the outgoing rule.
+    /// @example myClaims.setAllowOutgoing0(myRule);
     #[wasm_bindgen(js_name = "setAllowOutgoing0")]
-    pub fn set_allow_outgoing_0(&mut self, val: &FirewallClaims) {
-        self.allow_outgoing_0 = Some(val.clone());
+    pub fn set_allow_outgoing_0(&mut self, claims: &FirewallClaims) {
+        self.allow_outgoing_0 = Some(claims.clone());
     }
 }
 
+/// Represents FirewallClaims for controlling network access.
+/// To learn about claims see JWT RFC {@link https://datatracker.ietf.org/doc/html/rfc7519}
+/// free() - internal method do not use
 #[wasm_bindgen]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct FirewallClaims {
@@ -97,6 +116,19 @@ pub struct FirewallClaims {
 
 #[wasm_bindgen]
 impl FirewallClaims {
+    /// Creates a new FirewallClaims instance.
+    /// @typedef {string} Rule - Must be
+    /// - Is a valid UTF-8 string
+    /// - length(string) >= 1 character
+    /// - Contains no more than 1 wildcard (*)
+    /// 
+    /// Regex: /^(?:[^*]*\*[^*]*|[^*]+)$/g
+    /// 
+    /// Examples: ["*", "myGroup", "*bob", "my*"]
+    ///  
+    /// @param {Rule} group_id_rule - Desired rule for allowed groupIds
+    /// @param {Rule} peer_id_rule - Desired for allowed peerIds
+    /// @example const rule = new FirewallClaims("myGroup*", "*");
     #[wasm_bindgen(constructor)]
     pub fn new(group_id: &str, peer_id: &str) -> Self {
         Self {
@@ -108,6 +140,23 @@ impl FirewallClaims {
 
 // public fields will treated as copyable by wasm_bindgen:
 // https://github.com/rustwasm/wasm-bindgen/issues/1985
+/// Represents the main application instance.
+/// Get an app_id and app_secret from {@link https://pulsebeam.dev}
+/// free() - internal method do not use
+/// @example
+/// const { APP_ID, APP_SECRET } = process.env;
+/// const app = new App(APP_ID, APP_SECRET);
+///
+/// router.post('/auth', (req, res) => {
+///   const claims = new PeerClaims("myGroup1", "myPeer1");
+///   const rule = new FirewallClaims("myGroup*", "*");
+///   claims.setAllowIncoming0(rule);
+///   claims.setAllowOutgoing0(rule);
+///
+///   const ttlSeconds = 3600; // 1 hour
+///   const token = app.createToken(claims, ttlSeconds);
+///   res.json({ groupId, peerId, token });
+/// });
 #[wasm_bindgen]
 pub struct App {
     #[wasm_bindgen(skip)]
@@ -118,6 +167,12 @@ pub struct App {
 
 #[wasm_bindgen]
 impl App {
+    /// Creates a new App instance using your config. Essential for creating
+    /// client tokens.
+    /// Get an app_id and app_secret from {@link https://pulsebeam.dev}
+    /// @param {string} app_id - your application ID
+    /// @param {string} app_secret - your application secret
+    /// @example const app = new App(MY_APP_ID, MY_APP_SECRET);
     #[wasm_bindgen(constructor)]
     pub fn new(app_id: &str, app_secret: &str) -> Self {
         Self {
@@ -125,7 +180,15 @@ impl App {
             app_secret: app_secret.to_owned(),
         }
     }
-
+    
+    /// Create a JWT. The JWT should be used by your client-side application.
+    /// To learn about JWTs and claims see JWT RFC {@link https://datatracker.ietf.org/doc/html/rfc7519}
+    /// @param {PeerClaims} claims - The peer claims to include in the token.
+    /// @param {number} durationSecs - TTL duration before token expiration
+    /// @return {string} JWT - The generated JWT token as a string.
+    /// @throws {Error} When token creation fails. Likely an issue with your
+    /// AppSecret.
+    /// @example const token = app.createToken(claims, ttlSeconds);
     #[wasm_bindgen(js_name=createToken)]
     pub fn create_token(
         &self,
