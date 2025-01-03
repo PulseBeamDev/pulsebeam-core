@@ -1,6 +1,6 @@
 {
   "name": "@pulsebeam/server",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "nodeModulesDir": "auto",
   "exports": {
     "./node": "./pkg-bundler/index.ts",

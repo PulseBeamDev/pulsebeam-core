@@ -8,7 +8,7 @@ build:
 	wasm-pack build --target $(TARGET) --out-dir pkg-$(TARGET) --release --no-pack --weak-refs && cp js-assets/* pkg-$(TARGET)/
 
 publish: all
-	cp js-assets/README.md . && npx jsr publish --allow-slow-types && rm README.md
+	cp js-assets/README.md . && npx jsr publish --allow-slow-types --allow-dirty && rm README.md
 
 install:
 	curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
