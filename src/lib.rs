@@ -37,9 +37,8 @@ use wasm_bindgen::prelude::*;
 // router.post('/auth', (req, res) => {
 //   // Step 3: Generate JWT and respond with JWT
 //   const claims = new PeerClaims("myGroup1", "myPeer1");
-//   const rule = new FirewallClaims("myGroup*", "*");
-//   claims.setAllowIncoming0(rule);
-//   claims.setAllowOutgoing0(rule);
+//   const rule = new PeerPolicy("myGroup*", "*");
+//   claims.setAllowPolicy(rule);
 //   
 //   const ttlSeconds = 3600;
 //   const token = app.createToken(claims, ttlSeconds);
@@ -102,19 +101,6 @@ impl From<anyhow::Error> for AppError {
     }
 }
 
-// TODO: Remove incoming / outgoing in favor of a single symmetric scope
-// TODO: rename FirewallClaims to RoutingPolicy - bleg. kas I still like ConnectionPolicy or NetworkPolicy. I feel like RoutingPolicy sounds really low level like were talking about route tables and path selection 
-// TODO: update API to be one of two proposals below:
-//
-// const allowPolicy = new RoutingPolicy("allow", "myGroup*", "*");
-// const claims = new PeerClaims("myGroup", "myPeer", allowPolicy); 
-// or
-// const claims = new PeerClaims("myGroup1", "myPeer1");
-// const policy = new RoutingPolcy("myGroup*", "*");
-// claims.setRoutingPolicy(policy);
-
-// note: incoming / outgoing from is stated from the perspective of the peer
-
 /// `PeerClaims` are used to identify the peer and control which peer(s) this peer
 /// is allowed to connect to.
 /// 
@@ -135,9 +121,7 @@ pub struct PeerClaims {
     pub peer_id: String,
 
     #[wasm_bindgen(skip)]
-    pub allow_incoming_0: Option<FirewallClaims>,
-    #[wasm_bindgen(skip)]
-    pub allow_outgoing_0: Option<FirewallClaims>,
+    pub allow_policy: Option<PeerPolicy>,
 }
 
 #[wasm_bindgen]
@@ -160,15 +144,9 @@ impl PeerClaims {
             ..Self::default()
         }
     }
-
-    #[wasm_bindgen(js_name = "setAllowIncoming0")]
-    pub fn set_allow_incoming_0(&mut self, claims: &FirewallClaims) {
-        self.allow_incoming_0 = Some(claims.clone());
-    }
-
-    #[wasm_bindgen(js_name = "setAllowOutgoing0")]
-    pub fn set_allow_outgoing_0(&mut self, claims: &FirewallClaims) {
-        self.allow_outgoing_0 = Some(claims.clone());
+    #[wasm_bindgen(js_name = "setAllowPolicy")]
+    pub fn set_allow_policy(&mut self, claims: &PeerPolicy) {
+        self.allow_policy = Some(claims.clone());
     }
 }
 
@@ -177,17 +155,17 @@ impl PeerClaims {
 /// These are stored as JWT claims. For more info on JWTs see RFC 
 /// https://datatracker.ietf.org/doc/html/rfc7519
 /// 
-/// Note: Regardless of `FirewallClaims`, peers can only connect to other peers
+/// Note: Regardless of `PeerPolicy`, peers can only connect to other peers
 /// within the scope of your `app-id`.
 /// 
 /// # Examples
-/// `FirewallClaims("*", "*")` allows this peer to connect to any other peer.
+/// `PeerPolicy("*", "*")` allows this peer to connect to any other peer.
 /// 
 /// From there, you can opt to further scope-down permissions.
 /// 
 /// Let's say you are building a video call app. Where non-developers are only
 /// allowed to talk with other non-developers. If you put all non-developers in
-/// group called 'nonDev', you could set `FirewallClaims("nonDev", "*")` on
+/// group called 'nonDev', you could set `PeerPolicy("nonDev", "*")` on
 /// those peers to configure this behavior.
 /// 
 /// `free()` - internal method do not use
@@ -195,16 +173,17 @@ impl PeerClaims {
 /// `__destroy_into_raw()` - internal method do not use
 #[wasm_bindgen]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
-pub struct FirewallClaims {
+pub struct PeerPolicy {
     #[wasm_bindgen(skip)]
-    pub group_id: String,
+    pub group_id_policy: String,
     #[wasm_bindgen(skip)]
-    pub peer_id: String,
+    pub peer_id_policy: String,
 }
 
 #[wasm_bindgen]
-impl FirewallClaims {
-    /// Create `FirewallClaims` instance using provided `group_id_policy` and `peer_id_policy`.
+impl PeerPolicy {
+    /// Create `PeerPolicy` instance using provided `group_id_policy` and
+    /// `peer_id_policy`.
     /// 
     /// This is used in conjunction with `PeerClaims` to scope connection permissions.
     /// 
@@ -223,12 +202,12 @@ impl FirewallClaims {
     /// 
     /// Usage:
     /// 
-    /// `const rule = new FirewallClaims("myGroup*", "*");`
+    /// `const rule = new PeerPolicy("myGroup*", "*");`
     #[wasm_bindgen(constructor)]
-    pub fn new(group_id: &str, peer_id: &str) -> Self {
+    pub fn new(group_id_policy: &str, peer_id_policy: &str) -> Self {
         Self {
-            group_id: group_id.to_owned(),
-            peer_id: peer_id.to_owned(),
+            group_id_policy: group_id_policy.to_owned(),
+            peer_id_policy: peer_id_policy.to_owned(),
         }
     }
 }
@@ -240,7 +219,7 @@ impl FirewallClaims {
 /// 
 /// Get an `app_id` and `app_secret` from {@link https://pulsebeam.dev}
 /// 
-/// You are required to set `FirewallClaims` as network rules on `PeerClaims`
+/// You are required to set `PeerPolicy` as network rules on `PeerClaims`
 /// in order for resultant token to be valid.
 /// 
 /// `free()` - internal method do not use
@@ -255,9 +234,8 @@ impl FirewallClaims {
 ///
 /// router.post('/auth', (req, res) => {
 ///   const claims = new PeerClaims("myGroup1", "myPeer1");
-///   const rule = new FirewallClaims("myGroup*", "*");
-///   claims.setAllowIncoming0(rule); // required
-///   claims.setAllowOutgoing0(rule); // required
+///   const policy = new PeerPolicy("myGroup*", "*");
+///   claims.setAllowPolicy(policy); // required
 ///
 ///   const ttlSeconds = 3600; // 1 hour
 ///   const token = app.createToken(claims, ttlSeconds);

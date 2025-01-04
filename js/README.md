@@ -58,7 +58,7 @@ Here's a step-by-step guide to using `@pulsebeam/server` to generate a token:
 ### Example 
 
 ```ts
-import { App, FirewallClaims, PeerClaims } from "@pulsebeam/server/node";
+import { App, PeerPolicy, PeerClaims } from "@pulsebeam/server/node";
 
 // Step 1: Initialize app
 const { APP_ID, APP_SECRET } = process.env;
@@ -68,9 +68,8 @@ const app = new App(APP_ID, APP_SECRET);
 router.post('/auth', (req, res) => {
   // Step 3: Generate JWT and respond with JWT
   const claims = new PeerClaims("myGroup1", "myPeer1");
-  const rule = new FirewallClaims("*", "*");
-  claims.setAllowIncoming0(rule);
-  claims.setAllowOutgoing0(rule);
+  const policy = new PeerPolicy("*", "*");
+  claims.setAllowPolicy(policy);
   
   const ttlSeconds = 3600;
   const token = app.createToken(claims, ttlSeconds);
@@ -82,7 +81,7 @@ router.post('/auth', (req, res) => {
 
 * Set <APP_ID> and <APP_SECRET> with your credentials obtained from PulseBeam.
 * PeerClaims specify the peer's group and ID within your application.
-* FirewallClaims define which peers this peer can connect to.
+* PeerPolicy define which peers this peer can connect to.
 * createToken generates a JWT token based on the provided claims and expiration time.
 * Respond to your client's request with the generated JWT token, group ID, and peer ID.
 

@@ -1,6 +1,6 @@
 use anyhow::Context;
 use clap::{Parser, Subcommand};
-use pulsebeam_core::{App, FirewallClaims, PeerClaims};
+use pulsebeam_core::{App, PeerPolicy, PeerClaims};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -33,13 +33,9 @@ enum Commands {
         #[arg(long, default_value_t = 3600)]
         duration: u32,
 
-        /// Allow incoming connections from group ID and peer ID (format: "group_id:peer_id")
+        /// Allow connections from group ID and peer ID (format: "group_id:peer_id")
         #[arg(long, value_name = "GROUP_ID:PEER_ID")]
-        allow_incoming_0: Option<String>,
-
-        /// Allow outgoing connections to group ID and peer ID (format: "group_id:peer_id")
-        #[arg(long, value_name = "GROUP_ID:PEER_ID")]
-        allow_outgoing_0: Option<String>,
+        allow_policy: Option<String>,
     },
 }
 
@@ -65,26 +61,24 @@ fn main() -> anyhow::Result<()> {
             peer_id,
             group_id,
             duration,
-            allow_incoming_0,
-            allow_outgoing_0,
+            allow_policy,
         } => {
             let mut claims = PeerClaims::new(group_id, peer_id);
 
             // Helper function to parse "group_id:peer_id" strings
-            let parse_firewall_claims = |s: &String| -> Option<FirewallClaims> {
+            let parse_peer_policy = |s: &String| -> Option<PeerPolicy> {
                 let parts: Vec<&str> = s.split(':').collect();
                 if parts.len() == 2 {
-                    Some(FirewallClaims {
-                        group_id: parts[0].to_string(),
-                        peer_id: parts[1].to_string(),
+                    Some(PeerPolicy {
+                        group_id_policy: parts[0].to_string(),
+                        peer_id_policy: parts[1].to_string(),
                     })
                 } else {
                     None
                 }
             };
 
-            claims.allow_incoming_0 = allow_incoming_0.as_ref().and_then(parse_firewall_claims);
-            claims.allow_outgoing_0 = allow_outgoing_0.as_ref().and_then(parse_firewall_claims);
+            claims.allow_policy = allow_policy.as_ref().and_then(parse_peer_policy);
 
             let token = app.create_token(&claims, *duration)?;
             println!("{}", token);

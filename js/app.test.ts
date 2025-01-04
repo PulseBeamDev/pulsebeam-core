@@ -1,6 +1,6 @@
 import {
   App,
-  FirewallClaims,
+  PeerPolicy,
   PeerClaims,
 } from "./pkg-deno/pulsebeam_core.js";
 import { assertEquals } from "jsr:@std/assert";
@@ -14,9 +14,8 @@ Deno.test({
     );
 
     const claims = new PeerClaims("default", "alice");
-    const incoming = new FirewallClaims("default", "*");
-    claims.setAllowIncoming0(incoming);
-    claims.setAllowOutgoing0(incoming);
+    const policy = new PeerPolicy("default", "*");
+    claims.setAllowPolicy(policy);
 
     const token = app.createToken(claims, 3600);
     console.log(token);

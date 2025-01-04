@@ -1,7 +1,7 @@
 import {
   App,
-  FirewallClaims,
   PeerClaims,
+  PeerPolicy,
 } from "./pkg-bundler/pulsebeam_core.js";
 
 const app = new App(
@@ -10,9 +10,8 @@ const app = new App(
 );
 
 const claims = new PeerClaims("default", "alice");
-const incoming = new FirewallClaims("default", "*");
-claims.setAllowIncoming0(incoming);
-claims.setAllowOutgoing0(incoming);
+const policy = new PeerPolicy("default", "*");
+claims.setAllowPolicy(policy);
 
 const token = app.createToken(claims, 3600);
 console.log(token);
