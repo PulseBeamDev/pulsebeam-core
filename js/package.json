@@ -1,7 +1,13 @@
 {
   "name": "@pulsebeam/server",
   "version": "0.0.11",
-  "nodeModulesDir": "auto",
+  "author": "Lukas Herman support@pulsebeam.dev",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PulseBeamDev/pulsebeam-core.git"
+  },
+  "homepage": "https://pulsebeam.dev",
   "exports": {
     "./node": "./pkg-bundler/pulsebeam_core.js",
     "./deno": "./pkg-deno/pulsebeam_core.js"

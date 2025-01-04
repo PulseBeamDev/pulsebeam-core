@@ -1,9 +1,109 @@
-# @pulsebeam/server: Server SDK
+# @pulsebeam/server: Open-Source Server-Side SDK
 
-Generate tokens for your clients to use @pulsebeam/peer: WebRTC Peer-to-Peer Communication SDK. 
+Provides a server-side SDK for generating secure tokens that your client-side applications can use. For example, clients using the `@pulsebeam/peer` WebRTC Peer-to-Peer Communication SDK.
 
-@pulsebeam/peer Simplifies real-time application development. Defines signaling protocol for connection establishment, handling media and data transmission, and provides infrastructure.
+### Simplifying WebRTC Development
 
-You likely want to authenticate the user with your application before providing them with a token. As your PulseBeam account will incur usage based on what your clients use. See https://pulsebeam.dev/ pricing for more information.
+PulseBeam simplifies real-time application development by managing the complexities of WebRTC, including:
 
-Depending on your client's network, it is common to see 6-14% of WebRTC P2P traffic (sometimes higher or lower) going through a TURN server. PulseBeam hosts TURN servers and your customer's data usage accrues to your account. 
+- Signaling Protocol: Handles the exchange of information required to set up WebRTC connections.
+- Automatic Reconnection: Maintains stability by automatically re-establishing connections when disruptions occur.
+- Media & Data Support: Transmit audio, video, and/or data channels within your applications.
+- Infrastructure: Provides the underlying structure for reliable communication.
+
+### Why Use @pulsebeam/server?
+
+- Secure Client Authentication: Generate JWT tokens to control access and prevent unauthorized connections.
+- Simplified Integration: Seamlessly integrate `@pulsebeam/server` into your existing server-side infrastructure or deploy serverlessly.
+- Reduced Server Load: Offload WebRTC signaling, TURN, and media routing to PulseBeam's infrastructure.
+
+### Before You Begin
+
+Because PulseBeam usage and potential charges are incurred based on client consumption, you may want to authenticate and/or authorize users before issuing them tokens. 
+
+Refer to the PulseBeam pricing page for more details: https://pulsebeam.dev
+
+TURN is one kind of usage you will incur from clients. The underlying WebRTC connection will at times use TURN servers to relay data between peers instead of flowing directly peer to peer. Becuase TURN servers are able to traverse and overcome client network limitations to ensure a connection between your peers. You can expect TURN to be required 6-14% of the time but this will vary based on demographics of your user base. PulseBeam offers hosted TURN servers, data usage associated with cost of ingress and egress on these servers will be reflected in your PulseBeam account.
+
+# Installation
+
+Install and import the package using npm, deno, or yarn:
+
+### Use with npm:
+
+`npx jsr add @pulsebeam/server`
+
+### Using deno:
+
+`deno add jsr:@pulsebeam/server`
+
+### Using yarn:
+
+`yarn dlx jsr add @pulsebeam/server`
+
+# Import Symbol
+
+### Use with Node.js runtime
+
+`import * as server from "@pulsebeam/server/node";`
+
+### Use with Deno runtime
+
+`import * as server from "@pulsebeam/server/deno";`
+
+# Usage
+
+Here's a step-by-step guide to using `@pulsebeam/server` to generate a token:
+
+### Example 
+
+```ts
+import { App, FirewallClaims, PeerClaims } from "@pulsebeam/server/node";
+
+// Step 1: Initialize app
+const { APP_ID, APP_SECRET } = process.env;
+const app = new App(APP_ID, APP_SECRET);
+
+// Step 2: Listen for JWT requests from your clients'
+router.post('/auth', (req, res) => {
+  // Step 3: Generate JWT and respond with JWT
+  const claims = new PeerClaims("myGroup1", "myPeer1");
+  const rule = new FirewallClaims("*", "*");
+  claims.setAllowIncoming0(rule);
+  claims.setAllowOutgoing0(rule);
+  
+  const ttlSeconds = 3600;
+  const token = app.createToken(claims, ttlSeconds);
+  res.json({ groupId, peerId, token });
+});
+```
+
+### Explanation
+
+* Set <APP_ID> and <APP_SECRET> with your credentials obtained from PulseBeam.
+* PeerClaims specify the peer's group and ID within your application.
+* FirewallClaims define which peers this peer can connect to.
+* createToken generates a JWT token based on the provided claims and expiration time.
+* Respond to your client's request with the generated JWT token, group ID, and peer ID.
+
+### Another Example
+
+Here: https://github.com/PulseBeamDev/pulsebeam-js/blob/main/demo-cdn/main.js
+
+# Documentation
+
+### PulseBeam Resources
+
+For documentation, API keys, and usage scenarios, please refer to the official PulseBeam documentation:
+
+* @pulsebeam/server: https://jsr.io/@pulsebeam/server
+* @pulsebeam/peer: https://jsr.io/@pulsebeam/peer
+* PulseBeam Documentation: https://pulsebeam.dev
+
+### JWT Resources
+
+For a deeper understanding of JWT (JSON web token) concepts, consult the RFC: https://datatracker.ietf.org/doc/html/rfc7519
+
+### WebRTC Resources
+
+For a deeper understanding of WebRTC concepts, consult the official WebRTC documentation: https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API
