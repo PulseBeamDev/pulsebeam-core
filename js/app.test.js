@@ -1,11 +1,7 @@
-import {
-  App,
-  PeerClaims,
-  PeerPolicy,
-} from "./pkg-bundler/pulsebeam_core.js";
+import { App, PeerClaims, PeerPolicy } from "./pkg-bundler/pulsebeam_core.js";
 
 const app = new App(
-  "app_Ycl5ClRWJWNw8bqB25DMH",
+  "kid_Ycl5ClRWJWNw8bqB25DMH",
   "sk_e63bd11ff7491adc5f7cca5a4566b94d75ea6a9bafcd68252540eaa493a42109",
 );
 
