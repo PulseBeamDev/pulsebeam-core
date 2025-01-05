@@ -1,0 +1,14 @@
+[package]
+name = "pulsebeam-cli"
+version = "0.0.1"
+authors = ["Lukas Herman support@pulsebeam.dev"]
+edition = "2021"
+
+[[bin]]
+name = "pulsebeam-cli"
+path = "pulsebeam.rs"
+
+[dependencies]
+anyhow = "1.0"
+clap = { version = "4", features = ["derive"] }
+pulsebeam-core = { path = ".." }
