@@ -115,11 +115,14 @@ impl From<anyhow::Error> for AppError {
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
 pub struct PeerClaims {
     #[wasm_bindgen(skip)]
+    #[serde(rename = "gid")]
     pub group_id: String,
     #[wasm_bindgen(skip)]
+    #[serde(rename = "pid")]
     pub peer_id: String,
 
     #[wasm_bindgen(skip)]
+    #[serde(rename = "ap")]
     pub allow_policy: Option<PeerPolicy>,
 }
 
@@ -144,7 +147,7 @@ impl PeerClaims {
         }
     }
     #[wasm_bindgen(js_name = "setAllowPolicy")]
-    pub fn set_allow_policy(&mut self, claims: &PeerPolicy) {
+    pub fn set_allow(&mut self, claims: &PeerPolicy) {
         self.allow_policy = Some(claims.clone());
     }
 }
@@ -174,21 +177,21 @@ impl PeerClaims {
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct PeerPolicy {
     #[wasm_bindgen(skip)]
-    pub group_id_policy: String,
+    pub group_id: String,
     #[wasm_bindgen(skip)]
-    pub peer_id_policy: String,
+    pub peer_id: String,
 }
 
 #[wasm_bindgen]
 impl PeerPolicy {
-    /// Create `PeerPolicy` instance using provided `group_id_policy` and
-    /// `peer_id_policy`.
+    /// Create `PeerPolicy` instance using provided `group_id` and
+    /// `peer_id`.
     ///
     /// This is used in conjunction with `PeerClaims` to scope connection permissions.
     ///
-    /// `group_id_policy` - Desired rule for allowed groupIds
+    /// `group_id` - Desired rule for allowed groupIds
     ///
-    /// `peer_id_policy` - Desired for allowed peerIds
+    /// `peer_id` - Desired for allowed peerIds
     ///
     /// Policy string must be:
     /// - Valid UTF-8 string
@@ -203,10 +206,10 @@ impl PeerPolicy {
     ///
     /// `const rule = new PeerPolicy("myGroup*", "*");`
     #[wasm_bindgen(constructor)]
-    pub fn new(group_id_policy: &str, peer_id_policy: &str) -> Self {
+    pub fn new(group_id: &str, peer_id: &str) -> Self {
         Self {
-            group_id_policy: group_id_policy.to_owned(),
-            peer_id_policy: peer_id_policy.to_owned(),
+            group_id: group_id.to_owned(),
+            peer_id: peer_id.to_owned(),
         }
     }
 }

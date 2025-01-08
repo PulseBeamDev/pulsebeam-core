@@ -1,6 +1,6 @@
 use anyhow::Context;
 use clap::{Parser, Subcommand};
-use pulsebeam_core::{App, PeerPolicy, PeerClaims};
+use pulsebeam_core::{App, PeerClaims, PeerPolicy};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -70,8 +70,8 @@ fn main() -> anyhow::Result<()> {
                 let parts: Vec<&str> = s.split(':').collect();
                 if parts.len() == 2 {
                     Some(PeerPolicy {
-                        group_id_policy: parts[0].to_string(),
-                        peer_id_policy: parts[1].to_string(),
+                        group_id: parts[0].to_string(),
+                        peer_id: parts[1].to_string(),
                     })
                 } else {
                     None
