@@ -147,7 +147,7 @@ impl PeerClaims {
         }
     }
     #[wasm_bindgen(js_name = "setAllowPolicy")]
-    pub fn set_allow(&mut self, claims: &PeerPolicy) {
+    pub fn set_allow_policy(&mut self, claims: &PeerPolicy) {
         self.allow_policy = Some(claims.clone());
     }
 }
