@@ -281,7 +281,7 @@ impl App {
     /// # Throws
     ///
     /// {Error} When token creation fails. Likely an issue with your
-    /// AppSecret.
+    /// ApiSecret.
     ///
     /// # Example
     ///
