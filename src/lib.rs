@@ -45,24 +45,6 @@ use wasm_bindgen::prelude::*;
 //   res.json({ groupId, peerId, token });
 // });
 // ```
-//
-// If any of the following methods are present, you should NOT use them:
-//
-// free
-//
-// __destroy_into_raw
-//
-// __wbg_getTime_*  - internal method do not use
-//
-// __wbg_new0_* - internal method do not use
-//
-// __wbg_new_* - internal method do not use
-//
-// __wbg_set_wasm - internal method do not use
-//
-// __wbindgen_init_externref_table - internal method do not use
-//
-// __wbindgen_throw - internal method do not use
 
 #[derive(Error, Debug)]
 pub struct AppError {
@@ -107,10 +89,6 @@ impl From<anyhow::Error> for AppError {
 /// read by PulseBeam's signaling servers.
 ///
 /// To learn about claims see JWT RFC {@link https://datatracker.ietf.org/doc/html/rfc7519}
-///
-/// `free()` - internal method do not use
-///
-/// `__destroy_into_raw()` - internal method do not use
 #[wasm_bindgen]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default, Clone)]
 pub struct PeerClaims {
@@ -169,10 +147,6 @@ impl PeerClaims {
 /// allowed to talk with other non-developers. If you put all non-developers in
 /// group called 'nonDev', you could set `PeerPolicy("nonDev", "*")` on
 /// those peers to configure this behavior.
-///
-/// `free()` - internal method do not use
-///
-/// `__destroy_into_raw()` - internal method do not use
 #[wasm_bindgen]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct PeerPolicy {
@@ -223,10 +197,6 @@ impl PeerPolicy {
 ///
 /// You are required to set `PeerPolicy` as network rules on `PeerClaims`
 /// in order for resultant token to be valid.
-///
-/// `free()` - internal method do not use
-///
-/// `__destroy_into_raw()` - internal method do not use
 ///
 /// # Examples
 ///
