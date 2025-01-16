@@ -68,9 +68,9 @@ impl core::fmt::Display for AppError {
 }
 
 // https://rustwasm.github.io/wasm-bindgen/reference/types/result.html
-impl Into<JsValue> for AppError {
-    fn into(self) -> JsValue {
-        JsValue::from(js_sys::Error::new(&self.reason))
+impl From<AppError> for JsValue {
+    fn from(value: AppError) -> Self {
+        JsValue::from(js_sys::Error::new(&value.reason))
     }
 }
 
