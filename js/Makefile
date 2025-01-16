@@ -6,6 +6,11 @@ build:
 
 build-target:
 	wasm-pack build --target $(TARGET) --out-dir $(PWD)/pkg-$(TARGET) --release --no-pack --weak-refs
+	# jsr requires explicit d.ts reference, https://github.com/jsr-io/jsr/issues/370#issuecomment-2044467118
+	sed -i '1s~^~/// <reference types="./pulsebeam_core.d.ts" />\n~' $(PWD)/pkg-$(TARGET)/pulsebeam_core.js
+	sed -i '/free(): void;/d' $(PWD)/pkg-$(TARGET)/pulsebeam_core.d.ts
+	# sed -i '/^export function __/d' $(PWD)/pkg-$(TARGET)/*.wasm.d.ts
+	# sed -i '/^export const __/d' $(PWD)/pkg-$(TARGET)/*.wasm.d.ts
 
 test: build
 	deno test -A app.test.ts
