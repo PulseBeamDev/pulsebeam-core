@@ -31,7 +31,7 @@ use wasm_bindgen::prelude::*;
 // ```ts
 // // Step 1: Initialize app
 // const { PULSEBEAM_API_KEY, PULSEBEAM_API_SECRET } = process.env;
-// const app = new App(PULSEBEAM_API_KEY, PULSEBEAM_API_SECRET);
+// const app = new AccessToken(PULSEBEAM_API_KEY, PULSEBEAM_API_SECRET);
 //
 // // Step 2: Listen for JWT requests from your clients'
 // router.post('/auth', (req, res) => {
@@ -202,7 +202,7 @@ impl PeerPolicy {
 ///
 /// ```ts
 /// const { PULSEBEAM_API_KEY, PULSEBEAM_API_SECRET } = process.env;
-/// const app = new App(PULSEBEAM_API_KEY, PULSEBEAM_API_SECRET);
+/// const app = new AccessToken(PULSEBEAM_API_KEY, PULSEBEAM_API_SECRET);
 ///
 /// router.post('/auth', (req, res) => {
 ///   const claims = new PeerClaims("myGroup1", "myPeer1");
@@ -214,7 +214,7 @@ impl PeerPolicy {
 ///   res.json({ groupId, peerId, token });
 /// });```
 #[wasm_bindgen]
-pub struct App {
+pub struct AccessToken {
     #[wasm_bindgen(skip)]
     pub api_key: String,
     #[wasm_bindgen(skip)]
@@ -222,8 +222,8 @@ pub struct App {
 }
 
 #[wasm_bindgen]
-impl App {
-    /// Creates a new `App` instance using your config. Essential for creating
+impl AccessToken {
+    /// Creates a new `AccessToken` instance using your config. Essential for creating
     /// client tokens.
     ///
     /// Get an api_key and api_secret from {@link https://pulsebeam.dev}
@@ -231,7 +231,7 @@ impl App {
     /// # Examples
     ///
     /// ```ts
-    /// const app = new App(MY_API_KEY, MY_API_SECRET);```
+    /// const app = new AccessToken(MY_API_KEY, MY_API_SECRET);```
     #[wasm_bindgen(constructor)]
     pub fn new(api_key: &str, api_secret: &str) -> Self {
         Self {
@@ -301,9 +301,9 @@ mod tests {
 
     #[test]
     fn test_create_token() -> anyhow::Result<()> {
-        let app = App::new(
-            "kid_Ycl5ClRWJWNw8bqB25DMH",
-            "sk_e63bd11ff7491adc5f7cca5a4566b94d75ea6a9bafcd68252540eaa493a42109",
+        let app = AccessToken::new(
+            "kid_73d8caa6c387d46c",
+            "sk_7edea599046490dfd271b863b03398d2b613812b1f23efd023ca3b08026d3e67",
         );
 
         let claims = PeerClaims::new("default", "alice");

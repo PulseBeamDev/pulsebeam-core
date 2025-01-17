@@ -1,8 +1,8 @@
 import { App, PeerClaims, PeerPolicy } from "./pkg-bundler/pulsebeam_core.js";
 
 const app = new App(
-  "kid_Ycl5ClRWJWNw8bqB25DMH",
-  "sk_e63bd11ff7491adc5f7cca5a4566b94d75ea6a9bafcd68252540eaa493a42109",
+  "kid_73d8caa6c387d46c",
+  "sk_7edea599046490dfd271b863b03398d2b613812b1f23efd023ca3b08026d3e67",
 );
 
 const claims = new PeerClaims("default", "alice");
