@@ -1,5 +1,8 @@
 JS := js
 
+echo:
+	$(MAKE) -C $(JS) echo
+
 build:
 	$(MAKE) -C $(JS) build
 

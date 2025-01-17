@@ -1,6 +1,6 @@
 use anyhow::Context;
 use clap::{Parser, Subcommand};
-use pulsebeam_core::{App, PeerClaims, PeerPolicy};
+use pulsebeam_core::{AccessToken, PeerClaims, PeerPolicy};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -54,7 +54,7 @@ fn main() -> anyhow::Result<()> {
         .or_else(|| std::env::var("PULSEBEAM_API_SECRET").ok())
         .context("PULSEBEAM_API_SECRET must be provided either as a CLI argument or an environment variable")?;
 
-    let app = App::new(&api_key, &api_secret);
+    let app = AccessToken::new(&api_key, &api_secret);
 
     match &cli.command {
         Commands::CreateToken {

@@ -58,11 +58,11 @@ Here's a step-by-step guide to using `@pulsebeam/server` to generate a token:
 ### Example 
 
 ```ts
-import { App, PeerPolicy, PeerClaims } from "@pulsebeam/server/node";
+import { AccessToken, PeerPolicy, PeerClaims } from "@pulsebeam/server";
 
 // Step 1: Initialize app
-const { APP_ID, APP_SECRET } = process.env;
-const app = new App(APP_ID, APP_SECRET);
+const { API_KEY, API_SECRET } = process.env;
+const app = new AccessToken(API_KEY, API_SECRET);
 
 // Step 2: Listen for JWT requests from your clients'
 router.post('/auth', (req, res) => {
@@ -79,7 +79,7 @@ router.post('/auth', (req, res) => {
 
 ### Explanation
 
-* Set <APP_ID> and <APP_SECRET> with your credentials obtained from PulseBeam.
+* Set <API_KEY> and <API_SECRET> with your credentials obtained from PulseBeam.
 * PeerClaims specify the peer's group and ID within your application.
 * PeerPolicy define which peers this peer can connect to.
 * createToken generates a JWT token based on the provided claims and expiration time.

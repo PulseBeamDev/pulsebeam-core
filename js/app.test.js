@@ -1,6 +1,10 @@
-import { App, PeerClaims, PeerPolicy } from "./pkg-bundler/pulsebeam_core.js";
+import {
+  AccessToken,
+  PeerClaims,
+  PeerPolicy,
+} from "./pkg-bundler/pulsebeam_core.js";
 
-const app = new App(
+const app = new AccessToken(
   "kid_73d8caa6c387d46c",
   "sk_7edea599046490dfd271b863b03398d2b613812b1f23efd023ca3b08026d3e67",
 );
