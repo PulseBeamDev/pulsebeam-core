@@ -8,17 +8,13 @@
     "url": "https://github.com/PulseBeamDev/pulsebeam-core.git"
   },
   "homepage": "https://pulsebeam.dev",
-  "nodeModulesDir": "auto",
   "exports": {
     ".": "./pkg-bundler/pulsebeam_core.js",
     "./node": "./pkg-bundler/pulsebeam_core.js",
     "./deno": "./pkg-deno/pulsebeam_core.js"
   },
-  "exclude": [
-    "!pkg-bundler/",
-    "!pkg-deno/",
-    "src",
-    "tests",
-    "examples"
+  "files": [
+    "pkg-bundler",
+    "pkg-deno"
   ]
 }
