@@ -26,6 +26,9 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+    - uses: denoland/setup-deno@v2
+      with:
+        deno-version: v2.x
     - run: make install
     - run: make test
 
@@ -45,6 +48,9 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
       - name: Set version env
         run: echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
       - uses: release-drafter/release-drafter@v5
