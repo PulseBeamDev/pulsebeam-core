@@ -204,3 +204,4 @@ Cargo.lock
 Cargo.lock
 bin/
 wasm-pack.log
+.intentionally-empty-file.o

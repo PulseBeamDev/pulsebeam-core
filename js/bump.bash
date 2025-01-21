@@ -31,6 +31,8 @@ if ! [[ $REPLY =~ ^[Yy]$ ]]; then
   exit 1
 fi
 
+jq ".version = \"${version}\"" package.json >${tmp}
+mv ${tmp} package.json
 jq ".version = \"${version}\"" jsr.json >${tmp}
 mv ${tmp} jsr.json
 
