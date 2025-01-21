@@ -27,4 +27,5 @@ builds:
 
     flags:
       - --release
-      - --example pulsebeam
+      - --example
+      - pulsebeam
