@@ -56,7 +56,8 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - run: make install
+      - run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - run: cargo install cargo-zigbuild
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
