@@ -61,7 +61,7 @@ jobs:
       # https://github.com/rust-cross/cargo-zigbuild/issues/18#issuecomment-1076428026
       - name: macOS - Test build with SDKROOT
         run: |
-          curl -sqL https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz | tar -Jx -C /tmp/macsdk
+          curl -sqL https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz | tar -Jx -C /tmp
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
@@ -73,7 +73,7 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SDKROOT: /tmp/macsdk
+          SDKROOT: /tmp/MacOSX11.3.sdk
       - working-directory: ./js
         run: |
           make build
