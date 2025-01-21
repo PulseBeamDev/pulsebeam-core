@@ -27,3 +27,6 @@ publish: test
 
 install:
 	curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+bump:
+	bash bump.bash ${VERSION} 

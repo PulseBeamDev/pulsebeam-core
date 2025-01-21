@@ -14,3 +14,6 @@ publish:
 
 install:
 	$(MAKE) -C $(JS) install
+
+bump:
+	$(MAKE) -C $(JS) bump VERSION=$(VERSION)
