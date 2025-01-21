@@ -35,7 +35,7 @@ jq ".version = \"${version}\"" jsr.json >${tmp}
 mv ${tmp} jsr.json
 
 git add .
-git commit -m "[peer] bump to ${version}"
+git commit -m "bump to ${version}"
 git tag ${version_tag}
 
 echo "version bump has been commited and tagged"
