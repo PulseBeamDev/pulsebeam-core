@@ -1,4 +1,6 @@
 version: 2
+universal_binaries:
+  - replace: true
 builds:
   # You can have multiple builds defined as a yaml list
   - #

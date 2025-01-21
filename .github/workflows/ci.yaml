@@ -46,6 +46,8 @@ jobs:
           ref: ${{ github.event.inputs.tag || github.ref }}
       - name: Set up Go
         uses: actions/setup-go@v5
+      # we'll need this for both 'zig build' and 'cargo zigbuild'
+      - uses: mlugg/setup-zig@v1
       - uses: actions/setup-node@v4
         with:
           node-version: '20.x'
