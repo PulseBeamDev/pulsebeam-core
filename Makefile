@@ -14,6 +14,7 @@ publish:
 
 install:
 	$(MAKE) -C $(JS) install
+	cargo install cargo-zigbuild
 
 bump:
 	$(MAKE) -C $(JS) bump VERSION=$(VERSION)

@@ -46,6 +46,7 @@ jobs:
           ref: ${{ github.event.inputs.tag || github.ref }}
       - name: Set up Go
         uses: actions/setup-go@v5
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
       # we'll need this for both 'zig build' and 'cargo zigbuild'
       - uses: mlugg/setup-zig@v1
       - uses: actions/setup-node@v4
@@ -55,6 +56,7 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
+      - run: make install
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
@@ -66,7 +68,6 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: make install
       - working-directory: ./js
         run: |
           make build
