@@ -31,7 +31,7 @@ Install and import the package using npm, deno, or yarn:
 
 ### Use with npm:
 
-`npx jsr add @pulsebeam/server`
+`npm i @pulsebeam/server`
 
 ### Using deno:
 
@@ -39,7 +39,7 @@ Install and import the package using npm, deno, or yarn:
 
 ### Using yarn:
 
-`yarn dlx jsr add @pulsebeam/server`
+`yarn add @pulsebeam/server`
 
 # Import Symbol
 
