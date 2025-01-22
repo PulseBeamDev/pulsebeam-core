@@ -30,8 +30,9 @@ jobs:
       with:
         deno-version: v2.x
     - uses: actions-rust-lang/setup-rust-toolchain@v1
+      with:
+        target: wasm32-unknown-unknown
     - run: |
-        rustup target add wasm32-unknown-unknown
         cargo install wasm-bindgen-cli
         make test
 
@@ -50,6 +51,8 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
       - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          target: wasm32-unknown-unknown
       # we'll need this for both 'zig build' and 'cargo zigbuild'
       - uses: mlugg/setup-zig@v1
       - uses: actions/setup-node@v4
