@@ -64,8 +64,6 @@ jobs:
           deno-version: v2.x
       - run: cargo install cargo-zigbuild wasm-bindgen-cli
       - run: make build
-      # Why NPM...??
-      - run: rm -f **/.gitignore
       - working-directory: ./js
         run: |
           npx jsr publish --allow-slow-types
