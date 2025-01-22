@@ -63,6 +63,15 @@ jobs:
         with:
           deno-version: v2.x
       - run: cargo install cargo-zigbuild wasm-bindgen-cli
+      - run: make build
+      - working-directory: ./js
+        run: |
+          npx jsr publish --allow-slow-types
+          # Why NPM...??
+          rm **/.gitignore
+          npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       # https://github.com/rust-cross/cargo-zigbuild/issues/18#issuecomment-1076428026
       - name: macOS - Test build with SDKROOT
         run: |
@@ -79,12 +88,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SDKROOT: /tmp/MacOSX11.3.sdk
-      - working-directory: ./js
-        run: |
-          make build
-          npx jsr publish --allow-slow-types
-          # Why NPM...??
-          rm **/.gitignore
-          npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
