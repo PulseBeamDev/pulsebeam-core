@@ -51,6 +51,10 @@ Install and import the package using npm, deno, or yarn:
 
 `import * as server from "@pulsebeam/server/deno";`
 
+### Use with Cloudflare Workerd runtime
+
+`import * as server from "@pulsebeam/server/workerd";`
+
 # Usage
 
 Here's a step-by-step guide to using `@pulsebeam/server` to generate a token:
