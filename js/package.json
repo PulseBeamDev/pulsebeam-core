@@ -10,8 +10,8 @@
   "homepage": "https://pulsebeam.dev",
   "type": "module",
   "exports": {
-    ".": "./pkg-bundler/pulsebeam_core.js",
-    "./node": "./pkg-bundler/pulsebeam_core.js",
+    ".": "./pkg-experimental-nodejs-module/pulsebeam_core.js",
+    "./node": "./pkg-experimental-nodejs-module/pulsebeam_core.js",
     "./deno": "./pkg-deno/pulsebeam_core.js"
   },
   "files": [

@@ -1,17 +1,17 @@
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-TARGET := bundler
 
 build:
-	$(MAKE) build-target
-	$(MAKE) build-target TARGET=deno
+	$(MAKE) build-target WASM_PATH=$(WASM_PATH) TARGET=experimental-nodejs-module
+	$(MAKE) build-target WASM_PATH=$(WASM_PATH) TARGET=deno
 
 build-target:
-	wasm-pack build --target $(TARGET) --out-dir $(ROOT_DIR)/pkg-$(TARGET) --release --no-pack --weak-refs
+	wasm-bindgen --target $(TARGET) --out-dir $(ROOT_DIR)/pkg-$(TARGET) --typescript $(WASM_PATH)
 	# jsr requires explicit d.ts reference, https://github.com/jsr-io/jsr/issues/370#issuecomment-2044467118
 	sed -i '1s~^~/// <reference types="./pulsebeam_core.d.ts" />\n~' $(ROOT_DIR)/pkg-$(TARGET)/pulsebeam_core.js
 	sed -i '/free(): void;/d' $(ROOT_DIR)/pkg-$(TARGET)/pulsebeam_core.d.ts
 	# sed -i '/^export function __/d' $(ROOT_DIR)/pkg-$(TARGET)/*.wasm.d.ts
 	# sed -i '/^export const __/d' $(ROOT_DIR)/pkg-$(TARGET)/*.wasm.d.ts
+	rm -f $(ROOT_DIR)/pkg-$(TARGET)/package.json
 
 test: build
 	deno test -A app.test.ts
