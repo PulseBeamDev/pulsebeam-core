@@ -15,7 +15,7 @@
     "./deno": "./pkg-deno/pulsebeam_core.js"
   },
   "files": [
-    "pkg-bundler",
+    "pkg-experimental-nodejs-module",
     "pkg-deno"
   ]
 }

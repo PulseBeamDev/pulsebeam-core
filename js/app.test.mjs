@@ -2,7 +2,7 @@ import {
   AccessToken,
   PeerClaims,
   PeerPolicy,
-} from "./pkg-bundler/pulsebeam_core.js";
+} from "./pkg-experimental-nodejs-module/pulsebeam_core.js";
 
 const app = new AccessToken(
   "kid_73d8caa6c387d46c",
