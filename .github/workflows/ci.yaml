@@ -29,7 +29,7 @@ jobs:
     - uses: denoland/setup-deno@v2
       with:
         deno-version: v2.x
-    - run: make install
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
     - run: make test
 
   release:
@@ -56,7 +56,6 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - run: cargo install cargo-zigbuild
       # https://github.com/rust-cross/cargo-zigbuild/issues/18#issuecomment-1076428026
       - name: macOS - Test build with SDKROOT

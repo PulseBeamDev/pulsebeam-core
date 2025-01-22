@@ -9,7 +9,7 @@ build:
 	# wasm-opt -Os -o $(WASM_DIR)/pulsebeam_core.wasm $(WASM_DIR)/pulsebeam_core.wasm
 	$(MAKE) -C $(JS) build WASM_PATH=$(WASM_PATH)
 
-test:
+test: build
 	$(MAKE) -C $(JS) test WASM_PATH=$(WASM_PATH)
 
 publish:
