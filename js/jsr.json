@@ -20,6 +20,7 @@
     "include": [
       "pkg-experimental-nodejs-module",
       "pkg-deno",
+      "pkg-workerd",
       "README.md",
       "LICENSE",
       "jsr.json"
@@ -28,6 +29,7 @@
   "files": [
     "pkg-experimental-nodejs-module",
     "pkg-deno",
+    "pkg-workerd",
     "README.md",
     "LICENSE",
     "package.json"
