@@ -19,11 +19,17 @@
   "publish": {
     "include": [
       "pkg-experimental-nodejs-module",
-      "pkg-deno"
+      "pkg-deno",
+      "README.md",
+      "LICENSE",
+      "jsr.json"
     ]
   },
   "files": [
     "pkg-experimental-nodejs-module",
-    "pkg-deno"
+    "pkg-deno",
+    "README.md",
+    "LICENSE",
+    "package.json"
   ]
 }
