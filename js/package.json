@@ -8,6 +8,7 @@
     "url": "https://github.com/PulseBeamDev/pulsebeam-core.git"
   },
   "homepage": "https://pulsebeam.dev",
+  "type": "module",
   "exports": {
     ".": "./pkg-bundler/pulsebeam_core.js",
     "./node": "./pkg-bundler/pulsebeam_core.js",
