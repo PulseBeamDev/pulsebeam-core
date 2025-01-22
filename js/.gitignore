@@ -1,3 +1,4 @@
 pkg*/
 docs
 deno.lock
+package.json

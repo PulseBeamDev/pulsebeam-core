@@ -66,6 +66,8 @@ jobs:
       - run: make build
       - working-directory: ./js
         run: |
+          # jsr and npm don't support links
+          cp jsr.json package.json
           npx jsr publish --allow-slow-types
           npm publish --provenance --access public
         env:
