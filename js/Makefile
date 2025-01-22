@@ -4,6 +4,9 @@ build:
 	$(MAKE) build-target WASM_PATH=$(WASM_PATH) TARGET=experimental-nodejs-module
 	$(MAKE) build-target WASM_PATH=$(WASM_PATH) TARGET=deno
 
+	# shim workerd
+	cp $(ROOT_DIR)/shim-workerd.js $(ROOT_DIR)/pkg-experimental-nodejs-module/
+
 build-target:
 	wasm-bindgen --target $(TARGET) --out-dir $(ROOT_DIR)/pkg-$(TARGET) --typescript $(WASM_PATH)
 	# jsr requires explicit d.ts reference, https://github.com/jsr-io/jsr/issues/370#issuecomment-2044467118

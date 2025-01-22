@@ -12,7 +12,8 @@
   "exports": {
     ".": "./pkg-experimental-nodejs-module/pulsebeam_core.js",
     "./node": "./pkg-experimental-nodejs-module/pulsebeam_core.js",
-    "./deno": "./pkg-deno/pulsebeam_core.js"
+    "./deno": "./pkg-deno/pulsebeam_core.js",
+    "./workerd": "./pkg-experimental-nodejs-module/shim-workerd.js"
   },
   "files": [
     "pkg-experimental-nodejs-module",
