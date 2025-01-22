@@ -31,11 +31,10 @@ if ! [[ $REPLY =~ ^[Yy]$ ]]; then
   exit 1
 fi
 
-# package.json is symlinked to jsr.json
+# package.json is hard linked to jsr.json
 # jq ".version = \"${version}\"" package.json >${tmp}
 # mv ${tmp} package.json
-jq ".version = \"${version}\"" jsr.json >${tmp}
-mv ${tmp} jsr.json
+yq -i e ".version |= \"${version}\"" jsr.json
 
 git add .
 git commit -m "bump to ${version}"
