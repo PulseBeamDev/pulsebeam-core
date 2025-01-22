@@ -5,7 +5,8 @@ build:
 	$(MAKE) build-target WASM_PATH=$(WASM_PATH) TARGET=deno
 
 	# shim workerd
-	cp $(ROOT_DIR)/shim-workerd.js $(ROOT_DIR)/pkg-experimental-nodejs-module/
+	cp -r $(ROOT_DIR)/pkg-experimental-nodejs-module $(ROOT_DIR)/pkg-workerd
+	cp $(ROOT_DIR)/shim-workerd.js $(ROOT_DIR)/pkg-workerd/pulsebeam_core.js
 
 build-target:
 	wasm-bindgen --target $(TARGET) --out-dir $(ROOT_DIR)/pkg-$(TARGET) --typescript $(WASM_PATH)

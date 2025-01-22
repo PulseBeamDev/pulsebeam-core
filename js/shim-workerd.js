@@ -1,6 +1,7 @@
+/// <reference types="./pulsebeam_core.d.ts" />
+
 // Cloudflare doesn't support URL, import.meta.url, and fs.readFileSync
 // https://github.com/cloudflare/workers-sdk/issues/7265#issuecomment-2480871605
-
 let imports = {};
 import * as import0 from "./pulsebeam_core_bg.js";
 import wasmModule from "./pulsebeam_core_bg.wasm";
