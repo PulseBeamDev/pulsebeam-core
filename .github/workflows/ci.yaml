@@ -32,6 +32,7 @@ jobs:
     - uses: actions-rust-lang/setup-rust-toolchain@v1
     - run: |
         rustup target add wasm32-unknown-unknown
+        cargo install wasm-bindgen-cli
         make test
 
   release:
@@ -58,7 +59,7 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - run: cargo install cargo-zigbuild
+      - run: cargo install cargo-zigbuild wasm-bindgen-cli
       # https://github.com/rust-cross/cargo-zigbuild/issues/18#issuecomment-1076428026
       - name: macOS - Test build with SDKROOT
         run: |
