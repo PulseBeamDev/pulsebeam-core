@@ -47,7 +47,7 @@ Now you should have two tokens. You can use the tokens to connect the two peers 
 | `allow-policy`| Defines which peer(s) this peer is allowed to connect to. Default: `"*:*"` (connect to any other peer)[^1]. [More info](https://jsr.io/@pulsebeam/server/doc/~/PeerPolicy) |
 | `create-token`| Generates a token[^2][^3] based on the provided inputs/defaults.                                               |
 
-[^1]: Even with the `\"*:*\"` allow-policy, peers can only connect to other peers within the scope of your `<API_KEY>`.
+[^1]: Even with the `"*:*"` allow-policy, peers can only connect to other peers within the scope of your `<API_KEY>`.
 
 [^2]: Provide the CLI-generated token to your client's to allow them to talk to PulseBeam signaling servers and make connections with each other.
 
