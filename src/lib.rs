@@ -124,6 +124,8 @@ impl PeerClaims {
             ..Self::default()
         }
     }
+
+    /// See PeerPolicy for policy format
     #[wasm_bindgen(js_name = "setAllowPolicy")]
     pub fn set_allow_policy(&mut self, claims: &PeerPolicy) {
         self.allow_policy = Some(claims.clone());
@@ -136,7 +138,7 @@ impl PeerClaims {
 /// https://datatracker.ietf.org/doc/html/rfc7519
 ///
 /// Note: Regardless of `PeerPolicy`, peers can only connect to other peers
-/// within the scope of your `app-id`.
+/// within the scope of your PulseBeam Project.
 ///
 /// # Examples
 /// `PeerPolicy("*", "*")` allows this peer to connect to any other peer.
