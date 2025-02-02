@@ -14,13 +14,15 @@
     ".": "./pkg-experimental-nodejs-module/pulsebeam_core.js",
     "./node": "./pkg-experimental-nodejs-module/pulsebeam_core.js",
     "./deno": "./pkg-deno/pulsebeam_core.js",
-    "./workerd": "./pkg-workerd/pulsebeam_core.js"
+    "./workerd": "./pkg-workerd/pulsebeam_core.js",
+    "./web": "./pkg-web/pulsebeam_core.js"
   },
   "publish": {
     "include": [
       "pkg-experimental-nodejs-module",
       "pkg-deno",
       "pkg-workerd",
+      "pkg-web",
       "README.md",
       "LICENSE",
       "jsr.json"
@@ -30,6 +32,7 @@
     "pkg-experimental-nodejs-module",
     "pkg-deno",
     "pkg-workerd",
+    "pkg-web",
     "README.md",
     "LICENSE",
     "package.json"

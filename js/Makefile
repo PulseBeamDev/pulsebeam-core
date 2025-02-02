@@ -3,8 +3,10 @@ ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 build:
 	$(MAKE) build-target WASM_PATH=$(WASM_PATH) TARGET=experimental-nodejs-module
 	$(MAKE) build-target WASM_PATH=$(WASM_PATH) TARGET=deno
+	$(MAKE) build-target WASM_PATH=$(WASM_PATH) TARGET=web
 
 	# shim workerd
+	rm -rf $(ROOT_DIR)/pkg-workerd
 	cp -r $(ROOT_DIR)/pkg-experimental-nodejs-module $(ROOT_DIR)/pkg-workerd
 	cp $(ROOT_DIR)/shim-workerd.js $(ROOT_DIR)/pkg-workerd/pulsebeam_core.js
 
@@ -34,3 +36,6 @@ install:
 
 bump:
 	bash bump.bash ${VERSION} 
+
+serve:
+	caddy file-server --root .

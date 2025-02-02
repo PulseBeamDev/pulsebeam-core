@@ -19,6 +19,7 @@ install:
 	$(MAKE) -C $(JS) install
 	cargo install cargo-zigbuild
 	# brew install binaryen
+	brew install caddy
 
 bump:
 	$(MAKE) -C $(JS) bump VERSION=$(VERSION)
