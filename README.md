@@ -37,3 +37,18 @@
 - **Ensure you monitor your account's activity regularly** and revoke tokens that are no longer needed.
 
 For detailed information on billing and usage policies, visit our [Billing Page](https://pulsebeam.dev/billing).
+
+
+## Status
+
+> [!WARNING]
+> This SDK is currently in **Developer Preview**. During this phase:
+> - APIs are subject to breaking changes
+> - Stability issues may occur
+> - Core functionality is still being validated
+>
+> **We value your input!**  
+> Report bugs, suggest improvements, or collaborate directly with our team:
+> 
+> • [Create GitHub Issues](https://github.com/PulseBeamDev/pulsebeam-core/issues)  
+> • [Join PulseBeam Developer Discord](https://discord.gg/Bhd3t9afuB)  
