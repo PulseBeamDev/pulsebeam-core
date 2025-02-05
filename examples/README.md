@@ -10,19 +10,21 @@ For a server-side token-generation alternative and more documentation, see [`@pu
 
 ```bash
 cargo build
-./target/debug/pulsebeam-cli create-token \
+./target/debug/pulsebeam-cli \
+    --api-key "your_api_key" \
+    --api-secret "your_api_secret" \
+    create-token \
     --peer-id "peer-1" \
     --group-id "test" \
-    --allow-policy "test:peer-*" \
-    --api-key "your_api_key" \
-    --api-secret "your_api_secret"
+    --allow-policy "test:peer-*"
 
-./target/debug/pulsebeam-cli create-token \
+./target/debug/pulsebeam-cli \
+    --api-key "your_api_key" \
+    --api-secret "your_api_secret" \
+    create-token \
     --peer-id "peer-2" \
     --group-id "test" \
-    --allow-policy "test:peer-*" \
-    --api-key "your_api_key" \
-    --api-secret "your_api_secret"
+    --allow-policy "test:peer-*"
 ```
 
 Now you should have two tokens. You can use the tokens to connect the two peers together using PulseBeam. They are valid for the next hour.
